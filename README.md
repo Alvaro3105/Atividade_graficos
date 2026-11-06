@@ -23,3 +23,14 @@ python grafico_barras.py
 
 Cada script lê o CSV da mesma pasta, salva o gráfico em PNG e o exibe na tela.
 Exemplos dos resultados estão na pasta `graficos/`.
+
+## Dashboard (Streamlit)
+
+`app.py` reúne os 9 gráficos em um dashboard: três linhas de três gráficos, cada linha com uma
+breve análise abaixo, e um sidebar recolhível com as informações do aluno.
+
+```bash
+streamlit run app.py
+```
+
+No sidebar, preencha o número da chamada.
