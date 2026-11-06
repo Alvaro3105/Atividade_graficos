@@ -1,7 +1,3 @@
-"""Dashboard Streamlit com os 9 gráficos da Atividade 06.
-
-Executar:  streamlit run app.py
-"""
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -9,12 +5,6 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-# ---------------------------------------------------------------
-# CONFIGURAÇÃO DA PÁGINA
-# initial_sidebar_state="expanded" abre o sidebar; o Streamlit já
-# traz o botão ">" / "<" que permite recolhê-lo e reabri-lo.
-# layout="wide" usa a largura toda da tela (necessário p/ 3 colunas).
-# ---------------------------------------------------------------
 st.set_page_config(
     page_title="Dashboard - Atividade 06",
     page_icon="📊",
@@ -22,33 +12,24 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-PASTA = Path(__file__).parent  # os CSVs ficam na mesma pasta do app.py
-TAMANHO = (6, 4)               # tamanho padrão de cada figura
+PASTA = Path(__file__).parent
+TAMANHO = (6, 4)
 
-
-@st.cache_data  # evita reler o CSV a cada interação do usuário
+@st.cache_data
 def carregar(nome):
     return pd.read_csv(PASTA / nome)
 
-
 def mostrar(fig):
-    """Exibe a figura do matplotlib na coluna atual e libera a memória."""
+
     fig.tight_layout()
     st.pyplot(fig, width="stretch")
     plt.close(fig)
 
-
-# ---------------------------------------------------------------
-# SIDEBAR: informações do aluno
-# ---------------------------------------------------------------
 st.sidebar.title("Informações do aluno")
 st.sidebar.markdown("**Nome:** Álvaro Pires")
 chamada = st.sidebar.text_input("Número da chamada", placeholder="Digite seu número")
 st.sidebar.markdown("**Turma:** 3E2")
 
-# ---------------------------------------------------------------
-# CARREGAMENTO DOS DADOS
-# ---------------------------------------------------------------
 barras = carregar("dados_barras.csv")
 boxplot = carregar("dados_boxplot.csv")
 dispersao = carregar("dados_dispersao.csv")
@@ -63,15 +44,11 @@ st.title("📊 Dashboard de Análise de Dados")
 st.caption("Gráficos da Atividade 06, dispostos de três em três, com análise abaixo de cada linha.")
 st.divider()
 
-
-# ===============================================================
-# LINHA 1: barras | boxplot | dispersão
-# ===============================================================
 c1, c2, c3 = st.columns(3)
 
 with c1:
     st.subheader("1. Barras")
-    # pivot: uma coluna por região, uma linha por categoria
+
     tabela = barras.pivot(index="categoria", columns="regiao", values="vendas_medias")
     fig, ax = plt.subplots(figsize=TAMANHO)
     tabela.plot(kind="bar", ax=ax, width=0.8)
@@ -101,7 +78,6 @@ with c3:
     ax.grid(alpha=0.3)
     mostrar(fig)
 
-# --- análise da linha 1 (valores calculados a partir dos dados) ---
 media_cat = barras.groupby("categoria")["vendas_medias"].mean()
 media_reg = barras.groupby("regiao")["vendas_medias"].mean()
 mediana_dep = boxplot.groupby("departamento")["salario"].median()
@@ -120,10 +96,6 @@ st.write(
 )
 st.divider()
 
-
-# ===============================================================
-# LINHA 2: distribuição | frequência | heatmap
-# ===============================================================
 c1, c2, c3 = st.columns(3)
 
 with c1:
@@ -161,7 +133,6 @@ with c3:
     ax.set(xlabel="Horário", ylabel="Dia da semana")
     mostrar(fig)
 
-# --- análise da linha 2 ---
 idade = distribuicao["idade"]
 top_tipo = contagem.idxmax()
 dia_pico, hora_pico = matriz.stack().idxmax()
@@ -176,10 +147,6 @@ st.write(
 )
 st.divider()
 
-
-# ===============================================================
-# LINHA 3: linhas | pizza | regressão
-# ===============================================================
 c1, c2, c3 = st.columns(3)
 
 with c1:
@@ -205,7 +172,7 @@ with c2:
 with c3:
     st.subheader("9. Regressão linear")
     x, y = regressao["renda_mensal"], regressao["gasto_mensal"]
-    a, b = np.polyfit(x, y, 1)          # reta y = a*x + b
+    a, b = np.polyfit(x, y, 1)
     r2 = np.corrcoef(x, y)[0, 1] ** 2
     xs = np.array([x.min(), x.max()])
     fig, ax = plt.subplots(figsize=TAMANHO)
@@ -216,7 +183,6 @@ with c3:
     ax.grid(alpha=0.3)
     mostrar(fig)
 
-# --- análise da linha 3 ---
 total_loja = linhas.groupby("loja")["vendas"].sum()
 canal_top = pizza.loc[pizza["faturamento"].idxmax()]
 st.markdown("#### Análise dos gráficos 7, 8 e 9")
