@@ -1,27 +1,26 @@
+"""Gráfico de barras agrupadas: vendas médias por categoria e região."""
+import pandas as pd                # pandas: leitura e manipulação da tabela (CSV)
+import matplotlib.pyplot as plt    # matplotlib: biblioteca que desenha o gráfico
 
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
+# 1) Lê o arquivo CSV para um DataFrame (tabela em memória)
+df = pd.read_csv("dados_barras.csv")
 
-dados = pd.read_csv("dados/dados_barras.csv")
+# 2) pivot: transforma as regiões em colunas -> cada linha é uma categoria
+#    Resultado: linhas = categoria, colunas = Norte/Sul/Leste/Oeste
+tabela = df.pivot(index="categoria", columns="regiao", values="vendas_medias")
 
-print(dados.head())
-print(dados.info())
-print(dados.isnull().sum())
+# 3) .plot(kind="bar") desenha uma barra por coluna, agrupadas por categoria
+ax = tabela.plot(kind="bar", figsize=(9, 5), width=0.8)
 
-plt.figure(figsize=(10, 6))
+# 4) Títulos e rótulos: todo gráfico precisa de título e eixos nomeados
+ax.set_title("Vendas médias por categoria e região")
+ax.set_xlabel("Categoria")
+ax.set_ylabel("Vendas médias")
+plt.xticks(rotation=0)             # deixa os nomes das categorias na horizontal
+ax.legend(title="Região")          # legenda explicando as cores
+ax.grid(axis="y", alpha=0.3)       # linhas de grade horizontais discretas
 
-sns.barplot(
-    data=dados,
-    x="categoria",
-    y="vendas_medias",
-    hue="regiao"
-)
-
-plt.title("Vendas Médias por Categoria e Região")
-plt.xlabel("Categoria")
-plt.ylabel("Vendas Médias")
-
+# 5) Ajusta margens, salva em PNG e mostra na tela
 plt.tight_layout()
-plt.savefig("graficos/grafico_barras.png", dpi=300)
+plt.savefig("grafico_barras.png", dpi=150)
 plt.show()

@@ -1,40 +1,25 @@
-# Dashboard da Atividade 06
+# Atividade de Gráficos
 
-Dashboard interativo desenvolvido com Python e Streamlit para visualizar os gráficos da Atividade 06.
+Um script Python para cada arquivo de dados, cada um gerando um gráfico.
 
-## Estrutura dos arquivos
-
-```text
-Atividade_graficos/
-├── app.py
-├── requirements.txt
-└── arquivos/
-    ├── dados_barras.csv
-    ├── dados_boxplot.csv
-    ├── dados_dispersao.csv
-    ├── dados_distribuicao.csv
-    ├── dados_frequencia.csv
-    ├── dados_heatmap.csv
-    ├── dados_linhas.csv
-    ├── dados_pizza.csv
-    └── dados_regressao.csv
-```
+| Dados | Script | Gráfico |
+|---|---|---|
+| `dados_barras.csv` | `grafico_barras.py` | Barras agrupadas (categoria x região) |
+| `dados_boxplot.csv` | `grafico_boxplot.py` | Boxplot (salário por departamento) |
+| `dados_dispersao.csv` | `grafico_dispersao.py` | Dispersão (altura x peso por sexo) |
+| `dados_distribuicao.csv` | `grafico_distribuicao.py` | Histograma (idade dos clientes) |
+| `dados_frequencia.csv` | `grafico_frequencia.py` | Frequência (tipo de atendimento) |
+| `dados_heatmap.csv` | `grafico_heatmap.py` | Mapa de calor (dia x horário) |
+| `dados_linhas.csv` | `grafico_linhas.py` | Linhas (vendas diárias por loja) |
+| `dados_pizza.csv` | `grafico_pizza.py` | Pizza (faturamento por canal) |
+| `dados_regressao.csv` | `grafico_regressao.py` | Regressão linear (renda x gasto) |
 
 ## Como executar
 
-1. Abra o terminal na pasta do projeto.
-2. Instale as dependências:
+```bash
+pip install -r requirements.txt
+python grafico_barras.py
+```
 
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. Inicie o dashboard:
-
-   ```bash
-   streamlit run app.py
-   ```
-
-4. O Streamlit abrirá o dashboard no navegador. No menu lateral, preencha o número da chamada.
-
-O dashboard apresenta os dez gráficos em conjuntos de três, com uma breve análise após cada conjunto.
+Cada script lê o CSV da mesma pasta, salva o gráfico em PNG e o exibe na tela.
+Exemplos dos resultados estão na pasta `graficos/`.
