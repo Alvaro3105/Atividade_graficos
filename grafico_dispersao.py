@@ -1,4 +1,3 @@
-"""Gráfico de dispersão: relação entre altura e peso, colorido por sexo."""
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -6,10 +5,9 @@ df = pd.read_csv("dados_dispersao.csv")
 
 fig, ax = plt.subplots(figsize=(8, 6))
 
-# Um scatter por grupo (sexo) para cada um ter sua cor e entrada na legenda
 for sexo, grupo in df.groupby("sexo"):
     ax.scatter(grupo["altura_cm"], grupo["peso_kg"],
-               label=sexo, alpha=0.7)   # alpha = transparência (ajuda com pontos sobrepostos)
+               label=sexo, alpha=0.7)
 
 ax.set_title("Altura x Peso por sexo")
 ax.set_xlabel("Altura (cm)")
